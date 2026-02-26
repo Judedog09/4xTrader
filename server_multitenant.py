@@ -9,6 +9,19 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import nltk
+import os
+
+# Download vader_lexicon if not present
+nltk_data_dir = os.path.expanduser('~/nltk_data')
+os.makedirs(nltk_data_dir, exist_ok=True)
+nltk.data.path.append(nltk_data_dir)
+
+try:
+    nltk.data.find('vader_lexicon')
+except LookupError:
+    print("Downloading vader_lexicon...")
+    nltk.download('vader_lexicon', download_dir=nltk_data_dir)
 import uvicorn
 import requests
 import os
