@@ -1,0 +1,27 @@
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* The track (background) of the scrollbar */
+::-webkit-scrollbar-track {
+  background: #0a0c10; 
+}
+
+/* The thumb (the draggable bit) */
+::-webkit-scrollbar-thumb {
+  background: #1f232d;
+  border-radius: 10px;
+  border: 2px solid #0a0c10; /* Adds padding effect around the thumb */
+}
+
+/* Hover effect on the thumb */
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2e36;
+}
+
+/* For Firefox (different syntax) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1f232d #0a0c10;
+}
