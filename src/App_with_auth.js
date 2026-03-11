@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Zap, Mail, Lock, LogOut } from 'lucide-react';
+import TradingDashboard from './App';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 // ══════════════════════════════════════════════════════════════════════════════
-// AUTH PAGES
+// AUTH PAGE
 // ══════════════════════════════════════════════════════════════════════════════
 
 const AuthPage = ({ onLogin }) => {
@@ -160,29 +161,6 @@ const AuthPage = ({ onLogin }) => {
   );
 };
 
-// Import the main TradingApp from app.js (you'll need to export it from that file)
-// For now, I'll create a placeholder - in production you'd import your actual app
-const TradingApp = ({ token, onLogout }) => {
-  return (
-    <div>
-      <div style={{ padding:20, background:'#0d1117', borderBottom:'1px solid #21262d', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-          <Zap size={24} color="#00ffbb" fill="#00ffbb"/>
-          <span style={{ fontSize:18, fontWeight:900, color:'#00ffbb' }}>PULSE 4X</span>
-        </div>
-        <button onClick={onLogout} style={{ padding:'8px 16px', background:'#ff446620', border:'1px solid #ff446640', borderRadius:8, color:'#ff4466', fontWeight:700, cursor:'pointer', display:'flex', alignItems:'center', gap:8 }}>
-          <LogOut size={16}/> Logout
-        </button>
-      </div>
-      <div style={{ padding:40, color:'#fff', textAlign:'center' }}>
-        <h1>Trading Dashboard</h1>
-        <p>Your main trading app would be rendered here.</p>
-        <p style={{ marginTop:20, color:'#666' }}>Import your existing TradingApp component and pass the token via axios interceptors.</p>
-      </div>
-    </div>
-  );
-};
-
 // ══════════════════════════════════════════════════════════════════════════════
 // ROOT APP WITH AUTH
 // ══════════════════════════════════════════════════════════════════════════════
@@ -193,7 +171,6 @@ export default function AppWithAuth() {
   const handleLogin = (newToken) => {
     localStorage.setItem('titan_token', newToken);
     setToken(newToken);
-    // Set axios default header
     axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
   };
 
@@ -206,7 +183,6 @@ export default function AppWithAuth() {
     delete axios.defaults.headers.common['Authorization'];
   };
 
-  // Set axios header on mount if token exists
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -217,5 +193,5 @@ export default function AppWithAuth() {
     return <AuthPage onLogin={handleLogin} />;
   }
 
-  return <TradingApp token={token} onLogout={handleLogout} />;
+  return <TradingDashboard onLogout={handleLogout} />;
 }

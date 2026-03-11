@@ -6,10 +6,10 @@ import {
   CheckCircle, AlertCircle, Target, Shield, Flame, BarChart3, PieChart,
   Save, X, Plus, Minus, Eye, EyeOff,
   Calendar, BookOpen, TestTube, Award, Percent,
-  TrendingUp, TrendingDown, Play, Edit3, Tag, Settings, Sliders
+  TrendingUp, TrendingDown, Play, Edit3, Tag, Settings, Sliders, LogOut
 } from 'lucide-react';
 
-const API = 'http://localhost:8000/api';
+const API = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 // ─────────────────────────────────────────────
 // STYLES
@@ -1153,7 +1153,7 @@ const HeartbeatTab = ({ logs }) => {
 // ─────────────────────────────────────────────
 // MAIN APP
 // ─────────────────────────────────────────────
-export default function App() {
+export default function App({ onLogout }) {
   const [tab, setTab] = useState('positions');
   const [stats, setStats] = useState({ equity:0, buying_power:0, cash:0, positions:[] });
   const [bot, setBot] = useState({ user_enabled:true, system_active:false, activity_logs:[], portfolio_history:[], trade_history:[], strategy:{ indicators:{RSI:{enabled:true,weight:5,desc:'Relative Strength Index'},MACD:{enabled:true,weight:4,desc:'Trend Momentum Matrix'},VWAP:{enabled:true,weight:3,desc:'Volume Weighted Price'},EMA_CROSS:{enabled:false,weight:2,desc:'EMA 20/50 Cross'},ATR:{enabled:false,weight:1,desc:'Volatility Filter'}}, auto_threshold:82, sell_threshold:45, risk_per_trade:0.15, manual_limit:0.20 }, analytics:{}, daily_pnl:0, weekly_pnl:0, monthly_pnl:0, all_time_pnl:0, daily_pnl_history:[] });
@@ -1231,6 +1231,12 @@ export default function App() {
         </nav>
 
         <div className="sidebar-footer">
+          {onLogout && (
+            <button onClick={onLogout} style={{ width:'100%', padding:'10px 14px', background:'#ff446620', border:'1px solid #ff446640', borderRadius:8, color:'#ff4466', fontWeight:700, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:8, marginBottom:14, fontSize:12 }}>
+              <LogOut size={14}/> Logout
+            </button>
+          )}
+
           <div className="market-badge">
             <div>
               <div className="market-badge-label">Market</div>
